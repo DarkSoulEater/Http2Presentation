@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -16,8 +16,392 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2> Hypertext Transfer Protocol 2 </h2>
+					<p style="text-align: right; margin: 100px">
+						<small>Платонов Тимофей</small>
+					</p>
+				</section>
+
+
+				<section>
+					<h2> HTTP </h2>
+					<pre> HTTP Client: (Например curl)<code>
+	curl -i http://ru.wiki.com
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2> HTTP </h2>
+					<pre>  HTTP Request: <code>
+	GET / HTTP/1.1
+	Host: ru.wiki.com
+	User-Agent: curl/8.5.0
+	Accept: */*
+					</code></pre>
+					<pre> HTTP Response: <code>
+	HTTP/1.1 200 OK
+	Date: Mon, 14 Apr 2025 18:29:22 GMT
+	Content-Type: text/html
+	Content-Length: 3568
+	Connection: keep-alive
+	Server: Apache
+	Last-Modified: Tue, 07 Jan 2025 21:14:15 GMT
+	Expires: Mon, 14 Apr 2025 19:28:34 GMT
+
+	&lt;html&gt; ...
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2> HTTP2</h2>
+					<h3> Frame </h3>
+					<pre> <code>
+	HTTP Frame {
+		# Заголовок
+		Length (24), # Длина кадра в октетах не считая заголовка
+		Type (8), # Тип кадра
+		Flags (8), # Флаги (зависят от типа кадра)
+	
+		Reserved (1), # Зарезервированно (вегда 0)
+		Stream Identifier (31), # Индетификатор потока, которому принадлежит кадр
+	
+		# Содержимое
+		Frame Payload (..), # Полезная нагрузка
+	}
+						</code> </pre>
+				</section>
+
+				<section>
+					<section>				
+					<h3> Frame Type </h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Тип</th>
+								<th>Код</th>
+								<th>Назначение</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Data</td>
+								<td>0x00</td>
+								<td>Произвольные данные</td>
+							</tr>
+							<tr>
+								<td>Headers</td>
+								<td>0x01</td>
+								<td>Заголовки</td>
+							</tr>
+							<tr>
+								<td>Priority</td>
+								<td>0x02</td>
+								<td>Меняет приоритет</td>
+							</tr>
+							<tr>
+								<td>Rst Stream</td>
+								<td>0x03</td>
+								<td>Прерывает поток</td>
+							</tr>
+							<tr>
+								<td>Settings</td>
+								<td>0x04</td>
+								<td>Параметры конфигурации</td>
+							</tr>
+							<tr>
+								<td>Push Promise</td>
+								<td>0x05</td>
+								<td>Уведомление о желании открыть поток</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3> Frame Type </h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Тип</th>
+								<th>Код</th>
+								<th>Назначение</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Ping</td>
+								<td>0x06</td>
+								<td>Измерение времени кругового обхода</td>
+							</tr>
+							<tr>
+								<td>Goaway</td>
+								<td>0x07</td>
+								<td>Закртыие соединения или серьезные ошибки</td>
+							</tr>
+							<tr>
+								<td>Window Update</td>
+								<td>0x08</td>
+								<td>Управление потоком данных</td>
+							</tr>
+							<tr>
+								<td>Continuation</td>
+								<td>0x09</td>
+								<td>Продолжение для типа Headers</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				</section>
+
+
+				<section>
+					<h3> Мультиплексирование потоков </h3>
+					<div class="is-size-4">
+						<img src="img/http1.png">
+					</div>
+				</section>
+
+
+				<section>
+					<!-- <h2> HTTP2 </h2> -->
+					<h3> Мультиплексирование потоков </h3>
+					<div class="is-size-4">
+						<img src="img/http2.png">
+					</div>
+				</section>
+
+
+				<section>
+					<!-- <h2> HTTP2 </h2> -->
+					<h3> Мультиплексирование потоков </h3>
+					<img src="img/http3.png">
+				</section>
+
+
+				<section>
+					<!-- <h2> HTTP2 </h2> -->
+					<h3> Мультиплексирование потоков </h3>
+					<img src="img/http4.png">
+				</section>
+
+
+				<section>
+					<h2> HPACK </h2>
+					<p class="fragment"> Информация в заголовках часто дублируется или похожа (особенно в соседних). </p>
+					<p class="fragment"> Если кэшироватся заголовки можно значительно сократить трафик. </p>
+				</section>
+
+
+				<section>
+					<h2> HPACK TODO: </h2>
+					!!!Картинка со статической и динамической таблицей
+				</section>
+
+
+				<section>
+					<h2> HPACK </h2>
+					<p class="fragment"> Все заголовки отправлюятся в специальном формате HPACK. </p>
+					<p class="fragment"> Заголовки в HPACK имеют разные типы представления: </p>
+					<ul class="fragment">
+						<li> Indexed Header Field Representation </li>
+						<li> Literal Header Field with Incremental Indexing </li>
+						<li> Literal Header Field without Indexing </li>
+						<li> Literal Header Field Never Indexed </li>
+						<li> Dynamic Table Size Update </li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3> Indexed Header Field Representation </h3>
+					<pre><code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 1 |        Index (7+)         |
+	+---+---------------------------+					
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h3> Представление целых чисел </h3>
+					<p class="fragment"> Имеет выдленный префикс фиксорованной длинны. </p>
+					<p class="fragment"> Если помещается в этот префикс, то кодируется в нем. </p>
+					<p class="fragment"> Иначе устанавливаем все биты префикса в 1, и довабляем столько байт, сколько нужно чтобы закодировать число, в которых 1 бит флаг проложения остальные 6 код. </p>
+				</section>
+
+
+				<section>
+					<h3> Представление целых чисел TODO:</h3>
+					Слайд с примером. 
+				</section>
+
+
+				<section>
+					<h3> Literal Header Field Representation </h3>
+					<p class="fragment"> Бывает трех типов: </p>
+					<ul>
+						<li class="fragment"> With Incremental Indexing - заголовок сохраняется в тиблицу </li>
+						<li class="fragment">Without Indexing - заголовок не сохраняется в тиблицу </li>
+						<li class="fragment">Never Indexed - заголовок НИКОГДА не сохраняется в тиблицу</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3> Literal Header Field Representation </h3>
+					<p class="fragment"> Каждый тип в свою очередь делится еще на два: </p>
+					<ul class="fragment">
+						<li>Indexed Name - имя заголовка берется из таблицы, значение передается явно.</li>
+						<li>New Name - имя и значение передается явно.</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3> Literal Header Field Representation With Incremental Indexing  </h3>
+					<div style="display: flex; justify-content: space-between; gap: 20px;">
+						<pre> Indexed Name: <code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 0 | 1 |      Index (6+)       |
+	+---+---+-----------------------+
+	| H |     Value Length (7+)     |
+	+---+---------------------------+
+	| Value String (Length octets)  |
+	+-------------------------------+
+						</code></pre>
+						
+						<pre> New Name: <code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 0 | 1 |           0           |
+	+---+---+-----------------------+
+	| H |     Name Length (7+)      |
+	+---+---------------------------+
+	|  Name String (Length octets)  |
+	+---+---------------------------+
+	| H |     Value Length (7+)     |
+	+---+---------------------------+
+	| Value String (Length octets)  |
+	+-------------------------------+
+						</code></pre>
+					</div>
+				</section>
+
+
+				<section>
+					<h2>HPACK TODO:</h2>
+					<div style="display: flex; justify-content: space-between; gap: 1px;">
+						<ul>
+							<pre> <code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 1 |        Index (7+)         |
+	+---+---------------------------+
+							</code></pre>
+					
+							<pre><code>
+	0   1   2   3   4   5   6   7
+  +---+---+---+---+---+---+---+---+
+  | 0 | 1 |      Index (6+)       |
+  +---+---+-----------------------+
+							</code></pre>
+
+							<pre><code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 0 | 1 |           0           |
+	+---+---+-----------------------+
+							</code></pre>
+						</ul>
+
+						<ul>
+						<pre><code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 0 | 0 | 0 | 1 |  Index (4+)   |
+	+---+---+-----------------------+
+						</code></pre>
+
+						<pre><code>
+	0   1   2   3   4   5   6   7
+	+---+---+---+---+---+---+---+---+
+	| 0 | 0 | 1 |   Max size (5+)   |
+	+---+---------------------------+
+						</code></pre>
+					</ul>
+				</section>
+
+
+				<section>
+					<h2> HPACK </h2>
+					<p class="fragment"> Как часто используются символы [a-z,A-Z]? </p>
+					<p class="fragment"> А символы [!@%?]? </p>
+					<p class="fragment"> А спец сиволы (ASCII 0-31)? </p>
+					<p class="fragment"> Одни символы в заголовках встречаются на порядок чаще других. </p>
+					<p class="fragment"> Вывод: если использовать неравномерное кодирование можно сильно уменьшить размер. </p>
+				</section>
+
+
+				<section>
+					<h2> HPACK </h2>
+					<ul>
+						<li class="fragment"> Код фиксированной длины - для каждого символа одинаковое количество бит. </li>
+						<li class="fragment"> Код переменной длины - символы могут кодироваться различным количеством бит. </li>
+						<ul class="fragment">
+							<li> Префиксный код - никакой код не является начлом другого. </li>
+							<li> Постфиксный код - никакой код не является концом другого. </li>
+						</ul>
+					</ul>
+					<p class="fragment"> Все вышеперечисленные коды - однозначно декодируемые. </p>
+				</section>
+
+
+				<section>
+					<h2> HPACK </h2>
+					<p class="fragment"> Код хаффмана - префиксный код переменной длины</p>
+					<p class="fragment"> Для частых символов код короче ('видимые и \n, \r'), для редких длинее (все остальные). </p>
+				</section>
+
+				<section>
+					<h2> HUFFMAN </h2>
+					<div  class="fragment" style="display: flex; justify-content: space-between; gap: 20px;">
+						<p>  '0' - 00000
+						<br> '1' - 00001
+						<br> '2' - 00010
+						<br> '3' - 011001
+						<br> '4' - 011010
+
+						<p>  '5' - 011011
+						<br> '6' - 011100
+						<br> '7' - 011101
+						<br> '8' - 011110
+						<br> '9' - 011111
+						</p>
+
+						<p>  'a' - 00011
+						<br> 'b' - 100011
+						<br> 'c' - 00100
+						<br> 'd' - 100100
+						<br> 'e' - 00101
+						</p>
+						</div>
+					<p class="fragment"> ASCII(127) - 1111111111111111111111111100 </p>
+					<p class="fragment"> Все коды <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-B"> RFC.7541 Appendix B </a>. </p>
+				</section>
+
+
+				<section>
+					<h3> Ссылки </h3>
+					<ul>
+						<p> HTTP1.1 <a href="https://datatracker.ietf.org/doc/html/rfc7231"> RFC.7231 </a> </p>
+						<p> HTTP2 <a href="https://datatracker.ietf.org/doc/html/rfc9113"> RFC.9113 </a> </p>
+						<p> HPACK <a href="https://datatracker.ietf.org/doc/html/rfc7541"> RFC.7541 </a> </p>
+					</ul>
+				</section>
 			</div>
 		</div>
 
