@@ -25,12 +25,9 @@
 
 
 				<section>
-					<h2> HTTP </h2>
-					<pre> HTTP Client: (Например curl)<code>
-	curl -i http://ru.wiki.com
-					</code></pre>
+					<img src="img/HTTP1_Request.png">
+					<img src="img/HTTP1_Response.png">
 				</section>
-
 
 				<section>
 					<h2> HTTP </h2>
@@ -189,14 +186,74 @@
 
 				<section>
 					<h2> HPACK </h2>
-					<p class="fragment"> Информация в заголовках часто дублируется или похожа (особенно в соседних). </p>
-					<p class="fragment"> Если кэшироватся заголовки можно значительно сократить трафик. </p>
+					<p class="fragment"> Информация в заголовках часто дублируется или похожа (особенно в соседних запросах). </p>
+					<p class="fragment"> Если кэшировать заголовки можно значительно сократить трафик. </p>
+					<ul>
+						<li class="fragment"> Static Table - хранит фиксированные заголовки </li>
+						<li class="fragment"> Dynamic Table - обновляется в процессе обмена трафиком </li>
+					</ul>
 				</section>
 
 
 				<section>
-					<h2> HPACK TODO: </h2>
-					!!!Картинка со статической и динамической таблицей
+					<h3> HPACK - Static Table </h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Индекс</th>
+								<th>Имя</th>
+								<th>Значение</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>:authority</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>:method</td>
+								<td>GET</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>:method</td>
+								<td>POST</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>:path</td>
+								<td>/</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>:path</td>
+								<td>/index.html</td>
+							</tr>
+							<tr>
+								<td>...</td>
+								<td>...</td>
+								<td>...</td>
+							</tr>
+							<tr>
+								<td>61</td>
+								<td>www-authenticate</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					Полная таблица: <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-A"> RFC.7541 Appendix A </a>
+				</section>
+
+
+				<section>
+					<h3>HPACK - Dynamic Table</h3>
+					<ul>
+						<li class="fragment"> Так же хранит пары строк &lt;имя, значение&gt; </li>
+						<li class="fragment"> Индексы начинаются с 62 (конец статической таблицы) </li>
+						<li class="fragment"> Вставка всегда происходит в начало (т.е. новый элемент получает индекс 62, а остальные сдвигаются 62->63, 63->64...)</li>
+					</ul>
 				</section>
 
 
@@ -227,9 +284,9 @@
 
 				<section>
 					<h3> Представление целых чисел </h3>
-					<p class="fragment"> Имеет выдленный префикс фиксорованной длинны. </p>
+					<p class="fragment"> Имеет выдленный префикс фиксированной длинны. </p>
 					<p class="fragment"> Если помещается в этот префикс, то кодируется в нем. </p>
-					<p class="fragment"> Иначе устанавливаем все биты префикса в 1, и довабляем столько байт, сколько нужно чтобы закодировать число, в которых 1 бит флаг проложения остальные 6 код. </p>
+					<p class="fragment"> Иначе устанавливаем все биты префикса в 1, и довабляем столько байт, сколько нужно чтобы закодировать число, в которых 1 бит флаг проложения остальные 7 код числа. </p>
 				</section>
 
 
