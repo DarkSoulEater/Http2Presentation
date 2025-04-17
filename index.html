@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>HTTP2</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -149,7 +149,7 @@
 					</figure>
 
 					<ul>
-						<li class="fragment"> Используем кадр типа - Rst Stream </li>
+						<li class="fragment"> Используем кадр типа - <span class="rst-text">Rst Stream</span> </li>
 					</ul>
 				</section>
 
@@ -162,7 +162,8 @@
 					</figure>
 
 					<ul>
-						<li class="fragment"> Используем кадр типа - Push Promise </li>
+						<li class="fragment"> Используем кадр типа - <span class="pp-text">Push Promise</span> </li>
+						<li class="fragment"> Если клиенту они не нужны - <span class="rst-text">Rst Stream</span> </li>
 					</ul>
 				</section>
 
@@ -250,75 +251,46 @@
 
 
 				<section>
-					<h2> HPACK </h2>
-					<p class="fragment"> Информация в заголовках часто дублируется или похожа (особенно в соседних запросах). </p>
-					<p class="fragment"> Если кэшировать заголовки можно значительно сократить трафик. </p>
+					<h2> HTTP2 - HEADERS </h2>
 					<ul>
-						<li class="fragment"> Static Table - хранит фиксированные заголовки </li>
-						<li class="fragment"> Dynamic Table - обновляется в процессе обмена трафиком </li>
+						<li class="fragment"> Заголовки передаются в кадрах типа Headers в специальном формате HPACK </p>
+						<li class="fragment"> Используется механизм кэширования в специальной таблице </p>
+							<ul>
+								<li class="fragment">Static Table - хранит фиксированные заголовки</li>
+								<li class="fragment">Dynamic Table - обновляется в процессе обмена трафиком</li>
+							</ul>
 					</ul>
 				</section>
 
 
 				<section>
-					<h3> HPACK - Static Table </h3>
-					<table>
-						<thead>
-							<tr>
-								<th>Индекс</th>
-								<th>Имя</th>
-								<th>Значение</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>:authority</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>:method</td>
-								<td>GET</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>:method</td>
-								<td>POST</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>:path</td>
-								<td>/</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>:path</td>
-								<td>/index.html</td>
-							</tr>
-							<tr>
-								<td>...</td>
-								<td>...</td>
-								<td>...</td>
-							</tr>
-							<tr>
-								<td>61</td>
-								<td>www-authenticate</td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-					Полная таблица: <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-A"> RFC.7541 Appendix A </a>
+					<h2> HTTP2 - HEADERS </h2>
+					<figure>
+						<figcaption> Сравнение формата заголовков </figcaption>
+						<img src="img/HPACK_Header.drawio.png" alt="">
+					</figure>
 				</section>
 
 
 				<section>
-					<h3>HPACK - Dynamic Table</h3>
+					<h3>HPACK - Table</h3>
 					<ul>
-						<li class="fragment"> Так же хранит пары строк &lt;имя, значение&gt; </li>
-						<li class="fragment"> Индексы начинаются с 62 (конец статической таблицы) </li>
-						<li class="fragment"> Вставка всегда происходит в начало (т.е. новый элемент получает индекс 62, а остальные сдвигаются 62->63, 63->64...)</li>
+						<li class="fragment"> Хранит пары строк &lt;имя, значение&gt; </li>
+						<li class="fragment"> Статическая часть таблицы имеет индексы с 1 по 61 </li>
+						<li class="fragment"> Динамическая часть начинается с 62 (конец статической таблицы) </li>
+						<li class="fragment"> Вставка всегда происходит в начало динамической части (т.е. новый элемент получает индекс 62, а остальные сдвигаются 62->63, 63->64...)</li>
 					</ul>
+				</section>
+
+
+				<section>
+					<h3>HPACK - Table</h3>
+					<figure>
+						<figcaption> Табилца </figcaption>
+						<img src="img/HPACK_Table.drawio.png" alt="">
+					</figure>
+
+					<p class="fragment"> Полная таблица: <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-A"> RFC.7541 Appendix A </a> </p>
 				</section>
 
 
@@ -335,6 +307,24 @@
 					</ul>
 				</section>
 
+				<section>
+					<h3>Flowchart</h3>
+					<div class="mermaid">
+						%%{init: { 'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+						<div class="packet-beta">
+						packet-beta
+							0-0: "1"
+							1-7: " Index (7+) "
+						</div>
+					</div>
+					<pre class="mermaid">
+						%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+						packet-beta
+						  0-0: "1"
+						  1-7: " Index (7+) "
+					</pre>
+				  </section>
+
 
 				<section>
 					<h3> Indexed Header Field Representation </h3>
@@ -347,18 +337,18 @@
 				</section>
 
 
-				<section>
+				<!-- <section>
 					<h3> Представление целых чисел </h3>
 					<p class="fragment"> Имеет выдленный префикс фиксированной длинны. </p>
 					<p class="fragment"> Если помещается в этот префикс, то кодируется в нем. </p>
 					<p class="fragment"> Иначе устанавливаем все биты префикса в 1, и довабляем столько байт, сколько нужно чтобы закодировать число, в которых 1 бит флаг проложения остальные 7 код числа. </p>
-				</section>
+				</section> -->
 
-
+<!-- 
 				<section>
 					<h3> Представление целых чисел TODO:</h3>
 					Слайд с примером. 
-				</section>
+				</section> -->
 
 
 				<section>
@@ -458,17 +448,17 @@
 				</section>
 
 
-				<section>
+				<!-- <section>
 					<h2> HPACK </h2>
 					<p class="fragment"> Как часто используются символы [a-z,A-Z]? </p>
 					<p class="fragment"> А символы [!@%?]? </p>
 					<p class="fragment"> А спец сиволы (ASCII 0-31)? </p>
 					<p class="fragment"> Одни символы в заголовках встречаются на порядок чаще других. </p>
 					<p class="fragment"> Вывод: если использовать неравномерное кодирование можно сильно уменьшить размер. </p>
-				</section>
+				</section> -->
 
 
-				<section>
+				<!-- <section>
 					<h2> HPACK </h2>
 					<ul>
 						<li class="fragment"> Код фиксированной длины - для каждого символа одинаковое количество бит. </li>
@@ -479,17 +469,17 @@
 						</ul>
 					</ul>
 					<p class="fragment"> Все вышеперечисленные коды - однозначно декодируемые. </p>
-				</section>
+				</section> -->
 
 
 				<section>
-					<h2> HPACK </h2>
+					<h2> HPACK - HUFFMAN </h2>
 					<p class="fragment"> Код хаффмана - префиксный код переменной длины</p>
 					<p class="fragment"> Для частых символов код короче ('видимые и \n, \r'), для редких длинее (все остальные). </p>
 				</section>
 
 				<section>
-					<h2> HUFFMAN </h2>
+					<h2> HPACK - HUFFMAN </h2>
 					<div  class="fragment" style="display: flex; justify-content: space-between; gap: 20px;">
 						<p>  '0' - 00000
 						<br> '1' - 00001
@@ -531,6 +521,8 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.5/dist/reveal.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -539,7 +531,11 @@
 				hash: true,
 				slideNumber: true,
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ],
+				mermaid: {
+					// theme: 'dark',   
+					// startOnLoad: true,
+  				}
 			});
 		</script>
 	</body>

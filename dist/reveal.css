@@ -27,3 +27,15 @@
 .reveal .slide-number-delimiter {
     margin:0 3px
 }
+
+.rst-text {
+    color: #A51D2D;
+}
+
+.pp-text {
+    color: #BF79DB;
+}
+
+.mermaid .packet-beta {
+    max-width: 100px;
+}
