@@ -40,28 +40,6 @@
 					</div>
 				</section>
 
-				<!-- <section>
-					<h2> HTTP </h2>
-					<pre>  HTTP Request: <code>
-	GET / HTTP/1.1
-	Host: ru.wiki.com
-	User-Agent: curl/8.5.0
-	Accept: */*
-					</code></pre>
-					<pre> HTTP Response: <code>
-	HTTP/1.1 200 OK
-	Date: Mon, 14 Apr 2025 18:29:22 GMT
-	Content-Type: text/html
-	Content-Length: 3568
-	Connection: keep-alive
-	Server: Apache
-	Last-Modified: Tue, 07 Jan 2025 21:14:15 GMT
-	Expires: Mon, 14 Apr 2025 19:28:34 GMT
-
-	&lt;html&gt; ...
-					</code></pre>
-				</section> -->
-
 
 				<section>
 					<h2> HTTP </h2>
@@ -91,17 +69,8 @@
 				<section>
 					<h3> HTTP2 - Мультиплексирование потоков </h3>
 					<figure>
-						<figcaption> Запросили HTML </figcaption>
-						<img src="img/HTTP2-MS_1.drawio.png" alt="">
-					</figure>
-				</section>
-
-
-				<section>
-					<h3> HTTP2 - Мультиплексирование потоков </h3>
-					<figure>
-						<figcaption> Запросили CSS, IMG параллельно </figcaption>
-						<img src="img/HTTP2-MS_2.drawio.png" alt="">
+						<figcaption> Запросили несколько ресурсов параллельно </figcaption>
+						<img src="img/HTTP2-MS.drawio.png" alt="">
 					</figure>
 
 					<ul>
@@ -169,6 +138,32 @@
 						<figcaption> Получаем ресурсы </figcaption>
 						<img src="img/HTTP2_Frame_4.drawio.png" alt="">
 					</figure>
+				</section>
+
+
+				<section>
+					<h3> HTTP2 - Rst Stream </h3>
+					<figure>
+						<figcaption> Прерываем поток в середине </figcaption>
+						<img src="img/HTTP2_Rst.drawio.png" alt="">
+					</figure>
+
+					<ul>
+						<li class="fragment"> Используем кадр типа - Rst Stream </li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3> HTTP2 - Server Push </h3>
+					<figure>
+						<figcaption> Отсылаем данные заранее </figcaption>
+						<img src="img/HTTP2_Push_Promise.drawio.png" alt="">
+					</figure>
+
+					<ul>
+						<li class="fragment"> Используем кадр типа - Push Promise </li>
+					</ul>
 				</section>
 
 
@@ -251,37 +246,6 @@
 						</tbody>
 					</table>
 				</section>
-				</section>
-
-
-				<section>
-					<h3> Мультиплексирование потоков </h3>
-					<div class="is-size-4">
-						<img src="img/http1.png">
-					</div>
-				</section>
-
-
-				<section>
-					<!-- <h2> HTTP2 </h2> -->
-					<h3> Мультиплексирование потоков </h3>
-					<div class="is-size-4">
-						<img src="img/http2.png">
-					</div>
-				</section>
-
-
-				<section>
-					<!-- <h2> HTTP2 </h2> -->
-					<h3> Мультиплексирование потоков </h3>
-					<img src="img/http3.png">
-				</section>
-
-
-				<section>
-					<!-- <h2> HTTP2 </h2> -->
-					<h3> Мультиплексирование потоков </h3>
-					<img src="img/http4.png">
 				</section>
 
 
