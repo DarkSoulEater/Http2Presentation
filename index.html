@@ -90,8 +90,26 @@
 
 				<section>
 					<h3> HTTP2 - Мультиплексирование потоков </h3>
-					
+					<figure>
+						<figcaption> Запросили HTML </figcaption>
+						<img src="img/HTTP2-MS_1.drawio.png" alt="">
+					</figure>
 				</section>
+
+
+				<section>
+					<h3> HTTP2 - Мультиплексирование потоков </h3>
+					<figure>
+						<figcaption> Запросили CSS, IMG параллельно </figcaption>
+						<img src="img/HTTP2-MS_2.drawio.png" alt="">
+					</figure>
+
+					<ul>
+						<li class="fragment"> Как это достигается? </li>
+					</ul>
+				</section>
+
+
 
 
 				<section>
@@ -112,6 +130,47 @@
 	}
 						</code> </pre>
 				</section>
+
+
+				<section>
+					<h3> HTTP2 - Мультиплексирование потоков </h3>
+					<figure>
+						<figcaption> Запрашиваем HTML </figcaption>
+						<img src="img/HTTP2_Frame_1.drawio.png" alt="">
+					</figure>
+				</section>
+
+
+				<section>
+					<h3> HTTP2 - Мультиплексирование потоков </h3>
+					<figure>
+						<figcaption> Получаем HTML </figcaption>
+						<img src="img/HTTP2_Frame_2.drawio.png" alt="">
+					</figure>
+				</section>
+
+
+				<section>
+					<h3> HTTP2 - Мультиплексирование потоков </h3>
+					<figure>
+						<figcaption> Запрашиваем ресурсы </figcaption>
+						<img src="img/HTTP2_Frame_3.drawio.png" alt="">
+					</figure>
+
+					<ul>
+						<li class="fragment"> Несколько кадров могут быть упакованы в один TCP сегмент </li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h3> HTTP2 - Мультиплексирование потоков </h3>
+					<figure>
+						<figcaption> Получаем ресурсы </figcaption>
+						<img src="img/HTTP2_Frame_4.drawio.png" alt="">
+					</figure>
+				</section>
+
 
 				<section>
 					<section>				
@@ -514,7 +573,7 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
-
+				slideNumber: true,
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			});
