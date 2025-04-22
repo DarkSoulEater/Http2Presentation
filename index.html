@@ -308,25 +308,46 @@
 				</section>
 
 				<section>
-					<h3>Flowchart</h3>
-					<div class="mermaid">
-						%%{init: { 'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-						<div class="packet-beta">
-						packet-beta
-							0-0: "1"
-							1-7: " Index (7+) "
-						</div>
-					</div>
-					<pre class="mermaid">
-						%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-						packet-beta
-						  0-0: "1"
-						  1-7: " Index (7+) "
-					</pre>
-				  </section>
+					<h3> Indexed Header Field Representation </h3>
+					<figure>
+						<figcaption> Индексное представление </figcaption>
+						<img src="img/IFR.drawio.png" alt="">
+					</figure>
+
+					<ul class="fragment">
+						<li> Почему (7+)? </li>
+					</ul>
+				</section>
+
+				<section>
+					<h3> Literal Header Field Representation </h3>
+					<figure>
+						<figcaption> Литеральное представление </figcaption>
+						<img src="img/LFR.drawio.png" alt="">
+					</figure>
+				</section>
 
 
 				<section>
+					<h3> Literal Header Field Representation </h3>
+					<figure>
+						<figcaption> Два варианта представления </figcaption>
+						<img src="img/LFR_2.drawio.png" alt="">
+					</figure>
+				</section>
+
+
+				<section>
+					<h3>Dynamic Table Size Update</h3>
+					
+					<figure>
+						<figcaption> Изменение максимального размера таблицы </figcaption>
+						<img src="img/DTSU.drawio.png" alt="">
+					</figure>
+				</section>
+
+
+				<!-- <section>
 					<h3> Indexed Header Field Representation </h3>
 					<pre><code>
 	0   1   2   3   4   5   6   7
@@ -334,7 +355,7 @@
 	| 1 |        Index (7+)         |
 	+---+---------------------------+					
 					</code></pre>
-				</section>
+				</section> -->
 
 
 				<!-- <section>
@@ -351,7 +372,7 @@
 				</section> -->
 
 
-				<section>
+				<!-- <section>
 					<h3> Literal Header Field Representation </h3>
 					<p class="fragment"> Бывает трех типов: </p>
 					<ul>
@@ -359,20 +380,20 @@
 						<li class="fragment">Without Indexing - заголовок не сохраняется в тиблицу </li>
 						<li class="fragment">Never Indexed - заголовок НИКОГДА не сохраняется в тиблицу</li>
 					</ul>
-				</section>
+				</section> -->
 
 
-				<section>
+				<!-- <section>
 					<h3> Literal Header Field Representation </h3>
 					<p class="fragment"> Каждый тип в свою очередь делится еще на два: </p>
 					<ul class="fragment">
 						<li>Indexed Name - имя заголовка берется из таблицы, значение передается явно.</li>
 						<li>New Name - имя и значение передается явно.</li>
 					</ul>
-				</section>
+				</section> -->
 
 
-				<section>
+				<!-- <section>
 					<h3> Literal Header Field Representation With Incremental Indexing  </h3>
 					<div style="display: flex; justify-content: space-between; gap: 20px;">
 						<pre> Indexed Name: <code>
@@ -401,9 +422,9 @@
 	+-------------------------------+
 						</code></pre>
 					</div>
-				</section>
+				</section> -->
 
-
+<!-- 
 				<section>
 					<h2>HPACK TODO:</h2>
 					<div style="display: flex; justify-content: space-between; gap: 1px;">
@@ -445,7 +466,7 @@
 	+---+---------------------------+
 						</code></pre>
 					</ul>
-				</section>
+				</section> -->
 
 
 				<!-- <section>
@@ -503,6 +524,31 @@
 						</div>
 					<p class="fragment"> ASCII(127) - 1111111111111111111111111100 </p>
 					<p class="fragment"> Все коды <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-B"> RFC.7541 Appendix B </a>. </p>
+				</section>
+
+				<section>
+					<h3> Protosphere </h3>
+					Нет возможности переключить тип стрима на лету - необходимо залезать в HTTP1. (+ могут быть ошибки. TODO: подумать можно ли этого избежать и стоит ли того)
+				</section>
+
+				<section>
+					Итого получившийся результат с картинками. (Возможно сначала с них а потом проблемы с типами стримов)
+				</section>
+
+
+				<section>
+					<h3> Protosphere - Huffman</h3>
+					<ul>
+						<li class="fragment"> Для нахождения наличия слов в словаре - Бор (Trie) </li>
+						<li class="fragment"> Алфавит - [0, 1], Слова - коды символов, Словарь - таблица кодов </li>
+						<li class="fragment"> Все коды статические и заранее известны - весь бор можно создать на этапе компиляции (constexpr c++), а в runtime только находить вхождения </li>
+						<li class="fragment"> Коды не выровнены по границе байта - Битовый указтель </li>
+					</ul>
+				</section>
+
+
+				<section>
+					Картинка с примером бинарного бора (если надо)
 				</section>
 
 
