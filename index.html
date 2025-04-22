@@ -67,6 +67,15 @@
 
 
 				<section>
+					<h2> HTTP </h2>
+					<figure>
+						<figcaption> Создание текстур </figcaption>
+						<img src="img/HTTP_Texture.jpg" alt="" style="max-width: 800px; height: auto;">
+					</figure>
+				</section>
+
+
+				<section>
 					<h3> HTTP2 - Мультиплексирование потоков </h3>
 					<figure>
 						<figcaption> Запросили несколько ресурсов параллельно </figcaption>
@@ -78,9 +87,7 @@
 					</ul>
 				</section>
 
-
-
-
+				
 				<section>
 					<h2> HTTP2</h2>
 					<h3> Frame </h3>
@@ -526,15 +533,40 @@
 					<p class="fragment"> Все коды <a href="https://datatracker.ietf.org/doc/html/rfc7541#appendix-B"> RFC.7541 Appendix B </a>. </p>
 				</section>
 
-				<section>
-					<h3> Protosphere </h3>
-					Нет возможности переключить тип стрима на лету - необходимо залезать в HTTP1. (+ могут быть ошибки. TODO: подумать можно ли этого избежать и стоит ли того)
-				</section>
 
 				<section>
-					Итого получившийся результат с картинками. (Возможно сначала с них а потом проблемы с типами стримов)
+					<h2> Protosphere </h2>
+					<div style="display: flex; justify-content: space-between; gap: 1px;">
+						<figure>
+							<figcaption> </figcaption>
+							<img src="img/Proto_12.png" alt="">
+						</figure>
+						<figure>
+							<figcaption> </figcaption>
+							<img src="img/Proto_2.png" alt="">
+						</figure>
+					</div>
 				</section>
 
+
+				<section>
+					<h2> Protosphere </h2>
+					<figure>
+						<figcaption> </figcaption>
+						<img src="img/Proto_3.png" alt="">
+					</figure>
+				</section>
+
+
+				<section>
+					<h2> Protosphere - проблемы </h2>
+					<ul>
+						<li> Если без ssl (h2c), то соедение в HTTP2 происходит по схеме HTTP1 + Switch Protocol </li>
+						<li> Но в Protosphere нет возможности изменить тип Stream, поэтому при разборе HTTP1 приходится немного ждать, чтобы убедиться что это не Switch Protocol </li>
+						<li> Соответственно если смена версии происходит не в начале, возникнут проблемы (но в реальности так обычно не делают) </li>
+					</ul>
+				</section>
+				
 
 				<section>
 					<h3> Protosphere - Huffman</h3>
@@ -548,7 +580,11 @@
 
 
 				<section>
-					Картинка с примером бинарного бора (если надо)
+					<h3> Protosphere - Huffman</h3>
+					<figure>
+						<figcaption> Добавили 001, 01, 101: </figcaption>
+						<img src="img/HPACK_Trie.drawio.png" alt="">
+					</figure>
 				</section>
 
 
